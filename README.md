@@ -8,7 +8,7 @@ The API accepts 3 parameters to query the twitter API and serve the results as j
 3. Name = exact, Type = Boolean, Required = false<br>
     Should the result return only phrases which matches the exact search or in case of false return like result.
 
-# Code Example
+# Code
 Browser testing url: http://localhost:9000/query?query="mars%20mission"&exact=false&num=10
 <br>One can also test it using webservice testing tools like Postman which is easily available as Chrome plugin. 
 <br><br>
@@ -46,7 +46,23 @@ accessTokenSecret="accessTokenSecret"<br>
 
 # Running Application and Installation
 
-Repository
+Repository contains the jar file, which can be run from command prompt using above command.
+
+<br>
+> java -jar 
+
+<br>
+you can also use --debug to check application logs.<br>
+> java -jar --debug
+
+<br>
+Code can be imported to any IDE and you can use Maven to build and package the project. You can also use commandpromt and use mave t o build and package project.
+
+<br>
+# Tests
+
+There are 7 testcases to test the functionality can be more. TwitterApplicationTests is the class which contains all the tests.
+
 
 
 
