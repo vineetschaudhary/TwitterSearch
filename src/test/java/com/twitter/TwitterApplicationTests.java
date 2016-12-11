@@ -137,7 +137,7 @@ public class TwitterApplicationTests {
 	 * 
 	 * @throws Exception exception thrown
 	 */
-	@Ignore
+	@Test
 	public void testResultData() throws Exception {
 		mockMvc.perform(get("/query")
 				.param("query","mission")
