@@ -49,11 +49,11 @@ accessTokenSecret="accessTokenSecret"<br>
 Repository contains the jar file, which can be run from command prompt using above command.
 
 <br>
-> java -jar 
+> java -jar twitter-search-0.0.1.jar
 
 <br>
 you can also use --debug to check application logs.<br>
-> java -jar --debug
+> java -jar twitter-search-0.0.1.jar -debug
 
 <br>
 Code can be imported to any IDE and you can use Maven to build and package the project. You can also use commandpromt and use mave t o build and package project.
