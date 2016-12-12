@@ -11,7 +11,7 @@ package com.twitter.dto;
 public class SearchInput {
 	private String query;
 	private boolean exact;
-	private int num;
+	private int num = 20;
 	
 	/**
 	 * @param query
@@ -48,8 +48,8 @@ public class SearchInput {
 	/**
 	 * @param num the num to set
 	 */
-	public SearchInput num(int count) {
-		this.num = count;
+	public SearchInput num(int num) {
+		this.num = num;
 		return this;
 	}
 	
