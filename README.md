@@ -1,4 +1,4 @@
-# TwitterSearch
+# Synopsis
 The API accepts 3 parameters to query the twitter API and serve the results as json. API used GET request with 3 parameters, which are mentioned above with their name, tyep and required or optional.
 
 1. Name = query, Type = string, Required = true <br>
