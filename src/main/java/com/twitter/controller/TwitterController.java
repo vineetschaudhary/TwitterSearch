@@ -1,21 +1,10 @@
 package com.twitter.controller;
 
-import java.util.Optional;
-
-import javax.validation.Valid;
 import javax.validation.ValidationException;
-import javax.validation.constraints.Min;
-
-import org.assertj.core.util.Preconditions;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,7 +59,7 @@ public class TwitterController {
 	 * @param num - number od records
 	 * </p>
      	 */
-	private void validateInput(@RequestParam String query, @RequestParam(required = false) int num) {
+	private void validateInput(String query, int num) {
 		if(StringUtils.isEmpty(query) || num < 1){
 			throw new ValidationException();
 		}
