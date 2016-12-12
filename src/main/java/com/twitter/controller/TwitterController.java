@@ -47,19 +47,32 @@ public class TwitterController {
 	 * Entry point for Twitter search API, It then calls
 	 * {@link TwitterSearchEngine} class to process the given input and returns
 	 * {@link SearchOutput}.
-	 * 
-	 * @param input
-	 *            - Contains values to be searched.
-	 * @return SearchOutput - This is returned in JSON format.
-	 */
+	 * <p>
+	 * @param query - Query text to be searched.
+	 * @param exact - Search the exact text or like text.
+	 * @param num   - Number of records to be returned.
+     	 * @return SearchOutput - This is returned in JSON format.
+	 * </p>
+     	 */
 	@RequestMapping(path = "/query", method = RequestMethod.GET)
-	public @ResponseBody SearchOutput searchText(@RequestParam(required = true) String query,
-			@RequestParam(required=false) Optional<Boolean> exact, @RequestParam(required=false) Optional<Integer> num) {
-		if(StringUtils.isEmpty(query) || (num.isPresent() && num.get() < 1)){
-			throw new ValidationException();
-		}
+	public @ResponseBody SearchOutput searchText(@RequestParam String query,
+			@RequestParam(required=false) boolean exact, @RequestParam(required=false) int num) {
+		validateInput(query, num);
 		SearchOutput output = twitterSearchEngine.getSearchResults(query, exact, num);
 		LoggingUtil.logJsonDebug(logger, output);
 		return output;
+	}
+
+	/**
+	 * Validates the input and throws ValidationException.
+	 * <p>
+	 * @param query query text to search
+	 * @param num - number od records
+	 * </p>
+     	 */
+	private void validateInput(@RequestParam String query, @RequestParam(required = false) int num) {
+		if(StringUtils.isEmpty(query) || num < 1){
+			throw new ValidationException();
+		}
 	}
 }
