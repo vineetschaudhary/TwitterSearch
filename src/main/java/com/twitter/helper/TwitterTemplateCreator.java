@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
  * Template to connect to twitter API using Spring classes.
  * 
  * <p>
- * Created by kumar.ve.la on 09.12.2016.
+ * @author Veenit Kumar
+ * @since  10.12.2016
  * </p>
  */
 @Component
