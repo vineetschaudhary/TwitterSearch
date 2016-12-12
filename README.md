@@ -4,7 +4,7 @@ The API accepts 3 parameters to query the twitter API and serve the results as j
 1. Name = query, Type = string, Required = true <br>
     This the query text to be searched on twitter.
 2. Name = num, Type = Integer, Required = false<br>
-    Number of results to serve. By default serves 20 resuts in case this parameter is missing.
+    Number of results to serve. By default serves 20 results in case this parameter is missing.
 3. Name = exact, Type = Boolean, Required = false<br>
     Should the result return only phrases which matches the exact search or in case of false return like result.
 
@@ -44,10 +44,16 @@ accessToken="accessToken"<br>
 accessTokenSecret="accessTokenSecret"<br>
 <br>
 
-# Running Application and Installation
+# Installation and Running Application 
+You should have java 8 installed on your system.
 
-Repository contains the jar file, which can be run from command prompt using above command. Please check that you have rights on the directoy where jar is placed. <br>
-By default ports are given as server.port: 9000 and management.port: 9001. <br>
+<br>
+Repository contains the jar file, which can be run from command prompt using above command. Please check that you have rights on the directoy where jar is placed. 
+
+<br>
+By default ports are given as server.port: 9000 and management.port: 9001.
+
+<br>
 In case ports are already in use we can send those directly using command line argument.
 
 <br>
@@ -69,7 +75,7 @@ In case ports are already used then use above command to specify port. <br>
 > java -jar -Dmanagement.port=9991 -Dserver.port=9992  twitter-search-0.0.1.jar
 
 <br>
-Code can be imported to any IDE and you can use Maven to build and package the project. You can also use commandpromt and use mave t o build and package project.
+Code can be imported to any IDE and you can use Maven to build and package the project. You can also use command prompt and use maven to build and package project.
 
 <br>
 # Tests
