@@ -13,9 +13,12 @@ public class Results {
 	private String user;
 	
 	/**
-	 * @param id
-	 * @param text
-	 * @param user
+	 * Constructor
+	 * <p>
+	 * @param id - twitter text id
+	 * @param text - twitter text
+	 * @param user - user details.
+	 * </p>
 	 */
 	public Results(String id, String text, String user) {
 		super();
