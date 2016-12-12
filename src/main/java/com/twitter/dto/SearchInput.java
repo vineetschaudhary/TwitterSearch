@@ -53,6 +53,15 @@ public class SearchInput {
 		return this;
 	}
 	
+	@Override
+	public String toString() {
+		return "SearchInput{" +
+				"query='" + query + '\'' +
+				", exact=" + exact +
+				", num=" + num +
+				'}';
+	}
+
 	
 	
 }
