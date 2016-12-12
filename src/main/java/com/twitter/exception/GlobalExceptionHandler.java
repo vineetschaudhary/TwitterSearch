@@ -35,7 +35,6 @@ public class GlobalExceptionHandler {
 	 * Actual error is logged as error in the log file.
 	 * </p>
 	 * <p>
-	 * 
 	 * @param ex
 	 *            MethodArgumentTypeMismatchException
 	 * @return error information contains status code and user defined message.
@@ -45,7 +44,7 @@ public class GlobalExceptionHandler {
 	public @ResponseBody ErrorInfo handeMethodArgumentTypeMismatchException(HttpServletResponse response, MethodArgumentTypeMismatchException ex) {
 		log.error(ex.getMessage());
 		response.setStatus(HttpStatus.BAD_REQUEST.value());
-		return getError(HttpStatus.BAD_REQUEST.value(), "Argument type mismatch.");
+		return getError(HttpStatus.BAD_REQUEST.value(), String.format("%s field type mismatch.", ex.getParameter().getParameterName()));
 	}
 
 	/**
@@ -66,7 +65,7 @@ public class GlobalExceptionHandler {
 			MissingServletRequestParameterException ex) {
 		log.error(ex.getMessage());
 		response.setStatus(HttpStatus.BAD_REQUEST.value());
-		return getError(HttpStatus.BAD_REQUEST.value(), "Required parameter is not present.");
+		return getError(HttpStatus.BAD_REQUEST.value(), String.format("Required parameter %s is not present.", ex.getParameterName()));
 	}
 
 	/**
