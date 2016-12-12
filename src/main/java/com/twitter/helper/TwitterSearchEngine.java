@@ -43,7 +43,7 @@ public class TwitterSearchEngine {
 	 */
 	public SearchOutput getSearchResults(String query, boolean exact, int num) {
 		SearchInput input = new SearchInput(query).exact(exact).num(num);
-		LoggingUtil.logDebug(logger, "Input Parameters::" + input);
+		LoggingUtil.logDebug(logger, "Input Parameters::" + input.toString());
 		List<Results> results = getResults(input);
 		LoggingUtil.logDebug(logger, "Filtered results::" + results);
 		return SearchOutput.Builder.build().withExact(input.isExact()).withQuery(input.getQuery())
