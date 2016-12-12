@@ -32,19 +32,16 @@ public class TwitterSearchEngine {
 	@Autowired
 	private Twitter twitterTemplate;
 	/**
-	 * Calls getResults method and prepare the SearchOutput.
+	 * Calls processResults method and prepare the SearchOutput.
 	 *
 	 * <p>
-	 * @param query - Query text to be searched.
-	 * @param exact - Search the exact text or like text.
-	 * @param num   - Number of records to be returned.
+	 * @param input - Query parameters
 	 * @return SearchOutput - This is returned in JSON format.
 	 * </p>
 	 */
-	public SearchOutput getSearchResults(String query, boolean exact, int num) {
-		SearchInput input = new SearchInput(query).exact(exact).num(num);
+	public SearchOutput processQuery(SearchInput input) {
 		LoggingUtil.logDebug(logger, "Input Parameters::" + input.toString());
-		List<Results> results = getResults(input);
+		List<Results> results = processResults(input);
 		LoggingUtil.logDebug(logger, "Filtered results::" + results);
 		return SearchOutput.Builder.build().withExact(input.isExact()).withQuery(input.getQuery())
 				.withCount(results.size()).withResult(results).get();
@@ -61,7 +58,7 @@ public class TwitterSearchEngine {
 	 * @return updated string value.
 	 */
 	private String query(SearchInput input) {
-		return input.isExact() ? "\"" + input.getQuery() + "\"" : input.getQuery();
+		return input.isExact() ? "\"" + input.getQuery().replaceAll("\"", "") + "\"" : input.getQuery().replaceAll("\"", "");
 	}
 
 	/**
@@ -73,8 +70,9 @@ public class TwitterSearchEngine {
 	 *            - contains query parameter values.
 	 * @return search results
 	 */
-	private List<Results> getResults(SearchInput input) {
+	private List<Results> processResults(SearchInput input) {
 		SearchParameters parameters = new SearchParameters(query(input)).count(input.getNum());
+		LoggingUtil.logDebug(logger, "query after changes::" + parameters.getQuery());
 		SearchResults results = twitterTemplate.searchOperations().search(parameters);
 		LoggingUtil.logDebug(logger, "Result from twitter api::" + results);
 		return filterResults(results);

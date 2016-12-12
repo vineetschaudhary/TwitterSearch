@@ -1,13 +1,13 @@
 package com.twitter;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twitter.controller.TwitterController;
+import com.twitter.dto.SearchOutput;
 
 /**
  * MockMvc test cases for Twitter search api.
@@ -125,7 +129,7 @@ public class TwitterApplicationTests {
 	@Test
 	public void testResultSize() throws Exception {
 		mockMvc.perform(get("/query")
-				.param("query","mars mission")
+				.param("query","mission")
 				.param("exact", "false")
 				.param("num", "1"))
 				.andExpect(jsonPath("$.result", hasSize(1)));
@@ -139,11 +143,16 @@ public class TwitterApplicationTests {
 	 */
 	@Test
 	public void testResultData() throws Exception {
-		mockMvc.perform(get("/query")
+		MvcResult result = mockMvc.perform(get("/query")
 				.param("query","mission")
 				.param("exact", "false")
-				.param("num", "1"))
-				.andExpect(jsonPath("$.result[0].text", containsString("mission")));
+				.param("num", "1")).andReturn();
+		Assert.notNull(result);
+		Assert.notNull(result.getResponse().getContentAsString());
+		ObjectMapper mapper = new ObjectMapper();
+		SearchOutput output = mapper.readValue(result.getResponse().getContentAsString(), SearchOutput.class);
+		Assert.isTrue(output.getResult().get(0).getText().toLowerCase().contains("mission"));
+		
 		
 	}
 }

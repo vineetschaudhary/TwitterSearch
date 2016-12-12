@@ -13,6 +13,12 @@ public class Results {
 	private String user;
 	
 	/**
+	 * Default Constructor.
+	 * 
+	 */
+	public Results() {
+	}
+	/**
 	 * Constructor
 	 * <p>
 	 * @param id - twitter text id

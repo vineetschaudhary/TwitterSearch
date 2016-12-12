@@ -1,15 +1,20 @@
 package com.twitter.exception;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ValidationException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.social.OperationNotPermittedException;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.twitter.dto.ErrorInfo;
@@ -28,6 +33,48 @@ public class GlobalExceptionHandler {
 	private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	/**
+	 * Handler for BindException. 
+	 * 
+	 * <p>
+	 * Actual error is logged as error in the log file.
+	 * </p>
+	 * <p>
+	 * @param ex
+	 *            OperationNotPermittedException
+	 * @return error information contains status code and user defined message.
+	 * </p>
+	 */
+	@ExceptionHandler(BindException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public @ResponseBody ErrorInfo handleBindException(BindException ex) {
+		String errorMessage = null;
+		List<ObjectError> errors = ex.getBindingResult().getAllErrors();
+		List<String> messages = errors.stream().map(obj -> obj.getDefaultMessage()).collect(Collectors.toList());
+		errorMessage = StringUtils.collectionToDelimitedString(messages, " ,");
+		return getError(HttpStatus.BAD_REQUEST.value(), errorMessage);
+	}
+
+	/**
+	 * Handler for OperationNotPermittedException. 
+	 * 
+	 * <p>
+	 * Actual error is logged as error in the log file.
+	 * </p>
+	 * <p>
+	 * @param ex
+	 *            OperationNotPermittedException
+	 * @return error information contains status code and user defined message.
+	 * </p>
+	 */
+	@ExceptionHandler(OperationNotPermittedException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public @ResponseBody ErrorInfo handleOperationNotPermittedException(OperationNotPermittedException ex) {
+		log.error(ex.getMessage());
+		return getError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+	}
+
+	
+	/**
 	 * Handler for MethodArgumentTypeMismatchException. If method accepts
 	 * Integer value and string passed, this case will be handled in this
 	 * method.
@@ -41,9 +88,9 @@ public class GlobalExceptionHandler {
 	 * </p>
 	 */
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	public @ResponseBody ErrorInfo handeMethodArgumentTypeMismatchException(HttpServletResponse response, MethodArgumentTypeMismatchException ex) {
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public @ResponseBody ErrorInfo handeMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
 		log.error(ex.getMessage());
-		response.setStatus(HttpStatus.BAD_REQUEST.value());
 		return getError(HttpStatus.BAD_REQUEST.value(), String.format("%s field type mismatch.", ex.getParameter().getParameterName()));
 	}
 
@@ -61,31 +108,10 @@ public class GlobalExceptionHandler {
 	 * </p>
 	 */
 	@ExceptionHandler(MissingServletRequestParameterException.class)
-	public @ResponseBody ErrorInfo handleMissingServletRequestParameterException(HttpServletResponse response,
-			MissingServletRequestParameterException ex) {
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public @ResponseBody ErrorInfo handleMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
 		log.error(ex.getMessage());
-		response.setStatus(HttpStatus.BAD_REQUEST.value());
 		return getError(HttpStatus.BAD_REQUEST.value(), String.format("Required parameter %s is not present.", ex.getParameterName()));
-	}
-
-	/**
-	 * Handler for ValidationException. It's called when argument value is not valid.
-	 * <p>
-	 * Actual error is logged as error in the log file.
-	 * </p>
-	 * <p>
-	 * 
-	 * @param ex
-	 *            ValidationException
-	 * @return error information contains status code and user defined message.
-	 * </p>
-	 */
-	@ExceptionHandler(ValidationException.class)
-	public @ResponseBody ErrorInfo handleValidationException(HttpServletResponse response,
-			ValidationException ex) {
-		log.error(ex.getMessage());
-		response.setStatus(HttpStatus.BAD_REQUEST.value());
-		return getError(HttpStatus.BAD_REQUEST.value(), "Invalid method parameters.");
 	}
 
 	/**
@@ -102,9 +128,9 @@ public class GlobalExceptionHandler {
 	 *         </p>
 	 */
 	@ExceptionHandler(Exception.class)
-	public @ResponseBody ErrorInfo handleException(HttpServletResponse response, Exception ex) {
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public @ResponseBody ErrorInfo handleException(Exception ex) {
 		log.error(ex.getMessage());
-		response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		return getError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unexpected error occured.");
 	}
 

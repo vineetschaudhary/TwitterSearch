@@ -28,9 +28,9 @@ public class LoggingUtil {
 	 * @param objectToWrite - object to be written.
 	 */
 	public static void logJsonDebug(Logger logger, Object objectToWrite) {
-		ObjectMapper mapper = new ObjectMapper();
 		if(logger.isDebugEnabled()) {
 			try{
+				ObjectMapper mapper = new ObjectMapper();
 				logger.debug(mapper.writeValueAsString(objectToWrite));
 			}catch(Exception ex){
 				logger.error("Exception while converting object to json while logging. Class name" + objectToWrite.getClass());

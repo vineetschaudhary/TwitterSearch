@@ -1,16 +1,16 @@
 package com.twitter.controller;
 
-import javax.validation.ValidationException;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.twitter.dto.SearchInput;
 import com.twitter.dto.SearchOutput;
 import com.twitter.helper.TwitterSearchEngine;
 import com.twitter.logging.LoggingUtil;
@@ -37,31 +37,14 @@ public class TwitterController {
 	 * {@link TwitterSearchEngine} class to process the given input and returns
 	 * {@link SearchOutput}.
 	 * <p>
-	 * @param query - Query text to be searched.
-	 * @param exact - Search the exact text or like text.
-	 * @param num   - Number of records to be returned.
-     	 * @return SearchOutput - This is returned in JSON format.
+	 * @param input - holds query parameters.
+     * @return SearchOutput - This is returned in JSON format.
 	 * </p>
-     	 */
+     */
 	@RequestMapping(path = "/query", method = RequestMethod.GET)
-	public @ResponseBody SearchOutput searchText(@RequestParam String query,
-			@RequestParam(required=false) boolean exact, @RequestParam(required=false) int num) {
-		validateInput(query, num);
-		SearchOutput output = twitterSearchEngine.getSearchResults(query, exact, num);
+	public @ResponseBody SearchOutput searchText(@Valid SearchInput input) {
+		SearchOutput output = twitterSearchEngine.processQuery(input);
 		LoggingUtil.logJsonDebug(logger, output);
 		return output;
-	}
-
-	/**
-	 * Validates the input and throws ValidationException.
-	 * <p>
-	 * @param query query text to search
-	 * @param num - number od records
-	 * </p>
-     	 */
-	private void validateInput(String query, int num) {
-		if(StringUtils.isEmpty(query) || num < 1){
-			throw new ValidationException();
-		}
 	}
 }
