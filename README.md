@@ -32,7 +32,7 @@ Output is mapped to the SearchOutput and then returned which is automatically tr
 It logs the debugging data to the twitter.log file initially but it ca be changed in application.properties file by using property logging.path property.
 
 <br>
-GlobalExceptionHandler is used as ControllerAdvice which process all the exceptions thrown in the application. It has some specific handlor methods to process the exception and one method with Exception in case no handler is present for the exception thrown.
+GlobalExceptionHandler is used as ControllerAdvice which process all the exceptions thrown in the application. It has some specific handler methods to process the exception and one method with Exception in case no handler is present for the exception thrown.
 
 <br>
 Note: To connect to twitter you need 4 values which are defined above and added to the application.properies file. These values are used to authenticate the user to the twitter using OAuth. It can be retrieved by  registering an application at https://dev.twitter.com/apps.
@@ -58,7 +58,11 @@ If you start it from command line and it doesnt start means you have system righ
 
 <br>
 you can also use --debug to check application logs.<br>
-> java -jar twitter-search-0.0.1.jar -debug
+> java -jar twitter-search-0.0.1.jar --debug
+
+<br>
+you can also use --trace option to check all the logs from Spring mvc like parameter, request specific logs.<br>
+> java -jar twitter-search-0.0.1.jar --trace
 
 <br>
 In case ports are already used then use above command to specify port. <br>
