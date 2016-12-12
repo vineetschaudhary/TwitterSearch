@@ -1,5 +1,11 @@
 package com.twitter.dto;
 
+/**
+ * Error details which will be sent as json to the user will be set in this DTO.
+ *
+ * @author Veenit Kumar
+ * @since 10-12-2016
+ */
 public class ErrorInfo {
 	private int statusCode;
 	private String message;
@@ -11,7 +17,7 @@ public class ErrorInfo {
 		return statusCode;
 	}
 	/**
-	 * @param fieldName the fieldName to set
+	 * @param statusCode the fieldName to set
 	 */
 	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
