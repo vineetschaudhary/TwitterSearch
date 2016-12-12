@@ -46,7 +46,9 @@ accessTokenSecret="accessTokenSecret"<br>
 
 # Running Application and Installation
 
-Repository contains the jar file, which can be run from command prompt using above command. Please check that you have rights on the directoy where jar is placed also by default ports are given as server.port: 9000 and management.port: 9001. In case ports are already in use we can send those directly using command line argument.
+Repository contains the jar file, which can be run from command prompt using above command. Please check that you have rights on the directoy where jar is placed. <br>
+By default ports are given as server.port: 9000 and management.port: 9001. <br>
+In case ports are already in use we can send those directly using command line argument.
 
 <br>
 If you start it from command line and it doesnt start means you have system rights problem so place it somewhere else. in ase it started with printing something on CMD and again stopped then check logs twitter.log.
@@ -59,7 +61,7 @@ you can also use --debug to check application logs.<br>
 > java -jar twitter-search-0.0.1.jar -debug
 
 <br>
-In case posrts are already used then use above command to specify port.
+In case ports are already used then use above command to specify port. <br>
 > java -jar -Dmanagement.port=9991 -Dserver.port=9992  twitter-search-0.0.1.jar
 
 <br>
