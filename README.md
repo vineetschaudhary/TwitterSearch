@@ -80,7 +80,7 @@ Code can be imported to any IDE and you can use Maven to build and package the p
 <br>
 # Tests
 
-There are 7 testcases to test the functionality can be more. TwitterApplicationTests is the class which contains all the tests.
+There are integration and unit testcases to test the functionality. TwitterApplicationTests is the class which contains all the integration tests and TwitterSearchEngineTest contains unit testcases.
 
 
 
