@@ -47,10 +47,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(BindException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public @ResponseBody ErrorInfo handleBindException(BindException ex) {
-		String errorMessage = null;
-		List<ObjectError> errors = ex.getBindingResult().getAllErrors();
-		List<String> messages = errors.stream().map(obj -> obj.getDefaultMessage()).collect(Collectors.toList());
-		errorMessage = StringUtils.collectionToDelimitedString(messages, " ,");
+		String errorMessage = ex.getBindingResult().getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(", "));
 		return getError(HttpStatus.BAD_REQUEST.value(), errorMessage);
 	}
 
