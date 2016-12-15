@@ -79,13 +79,7 @@ public class TwitterSearchEngine {
 	}
 
 	/**
-	 * Filters data based on the input parameters.
-	 * <p>
-	 * 1. Filters number of result to be returned based on value passed in
-	 * SearchInput.num. It's default value is set to 20 so by default 20 results
-	 * are returned.<br>
-	 *
-	 * </p>
+	 * Maps SearchResults data to the new list containing Results.
 	 *
 	 * <p>
 	 * @param results
@@ -93,7 +87,7 @@ public class TwitterSearchEngine {
 	 * @return filtered result.
 	 * </p>
 	 */
-	private List<Results> filterResults(SearchResults results) {
+	private List<Results> mapResults(SearchResults results) {
 		return results.getTweets().stream()
 				.map(t -> new Results(t.getIdStr(), t.getText(), t.getFromUser())).collect(Collectors.toList());
 	}
