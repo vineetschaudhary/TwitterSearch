@@ -75,7 +75,7 @@ public class TwitterSearchEngine {
 		LoggingUtil.logDebug(logger, "query after changes::" + parameters.getQuery());
 		SearchResults results = twitterTemplate.searchOperations().search(parameters);
 		LoggingUtil.logDebug(logger, "Result from twitter api::" + results);
-		return filterResults(results);
+		return mapResults(results);
 	}
 
 	/**
